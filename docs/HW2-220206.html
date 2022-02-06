@@ -2098,19 +2098,71 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </div>
 
 <div class="d-article">
-Load Libraries need for this routine
+<p>Load Libraries need for this routine</p>
 <div class="layout-chunk" data-layout="l-body">
-
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://tidyverse.tidyverse.org'>tidyverse</a></span><span class='op'>)</span>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://readr.tidyverse.org'>readr</a></span><span class='op'>)</span>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://readxl.tidyverse.org'>readxl</a></span><span class='op'>)</span>
+<span class='co'>#library(dplyr)</span>
+</code></pre>
 </div>
-Read in a clean data set
+</div>
+<p>Read in a clean data set</p>
 <div class="layout-chunk" data-layout="l-body">
-
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>egg</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://readxl.tidyverse.org/reference/read_excel.html'>read_excel</a></span><span class='op'>(</span><span class='st'>"_data/eggs_tidy.xlsx"</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>egg</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code># A tibble: 6 x 6
+  month     year large_half_dozen large_dozen extra_large_half_dozen
+  &lt;chr&gt;    &lt;dbl&gt;            &lt;dbl&gt;       &lt;dbl&gt;                  &lt;dbl&gt;
+1 January   2004             126         230                    132 
+2 February  2004             128.        226.                   134.
+3 March     2004             131         225                    137 
+4 April     2004             131         225                    137 
+5 May       2004             131         225                    137 
+6 June      2004             134.        231.                   137 
+# ... with 1 more variable: extra_large_dozen &lt;dbl&gt;</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>poultry</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://readr.tidyverse.org/reference/read_delim.html'>read_csv</a></span><span class='op'>(</span><span class='st'>"_data/poultry_tidy.csv"</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>poultry</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code># A tibble: 6 x 4
+  Product  Year Month    Price_Dollar
+  &lt;chr&gt;   &lt;dbl&gt; &lt;chr&gt;           &lt;dbl&gt;
+1 Whole    2013 January          2.38
+2 Whole    2013 February         2.38
+3 Whole    2013 March            2.38
+4 Whole    2013 April            2.38
+5 Whole    2013 May              2.38
+6 Whole    2013 June             2.38</code></pre>
 </div>
 <p>Working with eggs: -pivot the data so size, qtry is a variable not seperatet columns -create a new data set with filter -modify to add seperate columns for size and Qty -TO DO: change the values in the size and Qty columns but I don’t know how to do this yet.</p>
 <div class="layout-chunk" data-layout="l-body">
-
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='co'>#head(egg)</span>
+<span class='co'>#select(egg,"month","year":"extra_large_dozen")</span>
+<span class='va'>egg_long</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://tidyr.tidyverse.org/reference/pivot_longer.html'>pivot_longer</a></span><span class='op'>(</span><span class='va'>egg</span>, <span class='st'>"large_half_dozen"</span><span class='op'>:</span><span class='st'>"extra_large_dozen"</span><span class='op'>)</span>
+<span class='va'>egg_lg_dz</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>egg_long</span>, <span class='va'>name</span><span class='op'>==</span><span class='st'>"large_dozen"</span><span class='op'>)</span>
+<span class='va'>egg_long</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/rename.html'>rename</a></span><span class='op'>(</span><span class='va'>egg_long</span>, <span class='st'>"size"</span> <span class='op'>=</span> <span class='va'>name</span><span class='op'>)</span>
+<span class='va'>egg_long</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span><span class='va'>egg_long</span>, <span class='st'>"Qty"</span> <span class='op'>=</span> <span class='va'>size</span><span class='op'>)</span>  
+<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>egg_long</span><span class='op'>)</span>
+</code></pre>
 </div>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<pre><code># A tibble: 6 x 5
+  month     year size                   value Qty                   
+  &lt;chr&gt;    &lt;dbl&gt; &lt;chr&gt;                  &lt;dbl&gt; &lt;chr&gt;                 
+1 January   2004 large_half_dozen        126  large_half_dozen      
+2 January   2004 large_dozen             230  large_dozen           
+3 January   2004 extra_large_half_dozen  132  extra_large_half_dozen
+4 January   2004 extra_large_dozen       230  extra_large_dozen     
+5 February  2004 large_half_dozen        128. large_half_dozen      
+6 February  2004 large_dozen             226. large_dozen           </code></pre>
+</div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>

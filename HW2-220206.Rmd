@@ -7,10 +7,11 @@ output: distill::distill_article
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE)
+knitr::opts_chunk$set(echo = TRUE)
 ```
 
 Load Libraries need for this routine
+
 ```{r load_lib}
 library(tidyverse)
 library(readr)
@@ -19,10 +20,14 @@ library(readxl)
 ```
 
 Read in a clean data set
+
 ```{r read_data}
 egg <- read_excel("_data/eggs_tidy.xlsx")
+head(egg)
 poultry <- read_csv("_data/poultry_tidy.csv")
+head(poultry)
 ```
+
 Working with eggs:
   -pivot the data so size, qtry is a variable not seperatet columns
   -create a new data set with filter
@@ -36,6 +41,6 @@ egg_long <- pivot_longer(egg, "large_half_dozen":"extra_large_dozen")
 egg_lg_dz <- filter(egg_long, name=="large_dozen")
 egg_long <- rename(egg_long, "size" = name)
 egg_long <- mutate(egg_long, "Qty" = size)  
-
+head(egg_long)
 ```
 
