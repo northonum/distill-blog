@@ -1,0 +1,26 @@
+---
+title: "In Class #2"
+description: |
+  This is my rMarkDown that we worked on in Class #2.
+author: "Jason O'Connell"
+date: "`r Sys.Date()`"
+output: distill::distill_article
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+library(tidyverse)
+library(readxl)
+```
+
+Distill is a publication format for scientific and technical writing, native to the web. 
+
+Learn more about using Distill for R Markdown at <https://rstudio.github.io/distill>.
+
+```{r}
+railroad2012 <- read_excel("_data/railroad_2012_clean_state.xlsx")
+activeDutyMaritalStatus <- read_excel("_data/ActiveDuty_MaritalStatus.xlsx")
+```
+
+
+
