@@ -1,7 +1,7 @@
 ---
-title: "HW #2 - Jason OConnell"
+title: "HW #2 - Submission 2"
 description: "DACSS 601 HW2 - Reading Data"
-author: "Jason O'Connell"
+author: "Jason OConnell"
 date: "`r Sys.Date()`"
 output: distill::distill_article
 ---
